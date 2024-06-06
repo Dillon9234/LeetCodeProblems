@@ -1,0 +1,28 @@
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        int n = intervals.length;
+        if(n==0){
+            int[][] ans = new int[1][2];
+            ans[0][0] = newInterval[0];
+            ans[0][1] = newInterval[1];
+            return ans;
+        }
+        int i=0;
+        List<int[]> ans = new ArrayList<>();
+        while(i<n&&intervals[i][1]<newInterval[0])
+            ans.add(intervals[i++]);
+        
+        while(i<n&&intervals[i][0]<=newInterval[1]){
+            newInterval[0] = Math.min(newInterval[0],intervals[i][0]);
+            newInterval[1] = Math.max(newInterval[1], intervals[i++][1]);
+        }
+
+        ans.add(newInterval);
+
+        while(i<n)
+            ans.add(intervals[i++]);
+        
+        return ans.toArray(new int[ans.size()][]);
+
+    }
+}
